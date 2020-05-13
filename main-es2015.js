@@ -71,7 +71,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<app-header></app-header>\n<hr>\n\n<div *ngIf=\"!loadingIndicator\" class=\" content-wrapper\">\n  <h4> Loading..........</h4>\n  \n</div>\n\n\n<div *ngIf=\"user && loadingIndicator\" class=\" content-wrapper\">\n  <h5><strong>UserID:</strong>{{user.userId}}</h5>\n  <h5><strong>Title:</strong>{{user.title}}</h5>\n  <h5><strong>Body:</strong>{{user.body}}</h5>\n  </div>\n<app-footer></app-footer>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<app-header></app-header>\n<hr>\n\n<div *ngIf=\"!loadingIndicator\" class=\" content-wrapper\">\n  <h4> Loading..........</h4>\n  \n</div>\n\n\n<div *ngIf=\"loadingIndicator\" class=\" content-wrapper\">\n  <h5><strong>UserID:</strong>{{user.userId}}</h5>\n  <h5><strong>Title:</strong>{{user.title}}</h5>\n  <h5><strong>Body:</strong>{{user.body}}</h5>\n  </div>\n<app-footer></app-footer>\n");
 
 /***/ }),
 
@@ -639,14 +639,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+//import { UserPost } from '../user-post.modal';
 let UserDetailsComponent = class UserDetailsComponent {
     constructor(userService, route) {
         this.userService = userService;
         this.route = route;
         this.loadingIndicator = false;
-        this.user = [];
-    }
-    ngOnInit() {
+        //user: UserPost;
+        this.user = [{
+                body: null,
+                userId: null,
+                title: null,
+            }];
         this.susbscription = this.route.params.subscribe(param => {
             console.log(param);
             if (param) {
@@ -659,6 +663,8 @@ let UserDetailsComponent = class UserDetailsComponent {
                 });
             }
         });
+    }
+    ngOnInit() {
     }
     ngOnDestroy() {
         this.susbscription.unsubscribe();

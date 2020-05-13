@@ -111,7 +111,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<app-header></app-header>\n<hr>\n\n<div *ngIf=\"!loadingIndicator\" class=\" content-wrapper\">\n  <h4> Loading..........</h4>\n  \n</div>\n\n\n<div *ngIf=\"user && loadingIndicator\" class=\" content-wrapper\">\n  <h5><strong>UserID:</strong>{{user.userId}}</h5>\n  <h5><strong>Title:</strong>{{user.title}}</h5>\n  <h5><strong>Body:</strong>{{user.body}}</h5>\n  </div>\n<app-footer></app-footer>\n";
+    __webpack_exports__["default"] = "<app-header></app-header>\n<hr>\n\n<div *ngIf=\"!loadingIndicator\" class=\" content-wrapper\">\n  <h4> Loading..........</h4>\n  \n</div>\n\n\n<div *ngIf=\"loadingIndicator\" class=\" content-wrapper\">\n  <h5><strong>UserID:</strong>{{user.userId}}</h5>\n  <h5><strong>Title:</strong>{{user.title}}</h5>\n  <h5><strong>Body:</strong>{{user.body}}</h5>\n  </div>\n<app-footer></app-footer>\n";
     /***/
   },
 
@@ -1262,37 +1262,42 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
     /*! @angular/router */
-    "./node_modules/@angular/router/fesm2015/router.js");
+    "./node_modules/@angular/router/fesm2015/router.js"); //import { UserPost } from '../user-post.modal';
+
 
     var UserDetailsComponent = /*#__PURE__*/function () {
       function UserDetailsComponent(userService, route) {
+        var _this = this;
+
         _classCallCheck(this, UserDetailsComponent);
 
         this.userService = userService;
         this.route = route;
-        this.loadingIndicator = false;
-        this.user = [];
+        this.loadingIndicator = false; //user: UserPost;
+
+        this.user = [{
+          body: null,
+          userId: null,
+          title: null
+        }];
+        this.susbscription = this.route.params.subscribe(function (param) {
+          console.log(param);
+
+          if (param) {
+            _this.userService.getUserOnSelect(param.id).subscribe(function (val) {
+              if (val) {
+                _this.user = val[0];
+                _this.loadingIndicator = true;
+                console.log(_this.user);
+              }
+            });
+          }
+        });
       }
 
       _createClass(UserDetailsComponent, [{
         key: "ngOnInit",
-        value: function ngOnInit() {
-          var _this = this;
-
-          this.susbscription = this.route.params.subscribe(function (param) {
-            console.log(param);
-
-            if (param) {
-              _this.userService.getUserOnSelect(param.id).subscribe(function (val) {
-                if (val) {
-                  _this.user = val[0];
-                  _this.loadingIndicator = true;
-                  console.log(_this.user);
-                }
-              });
-            }
-          });
-        }
+        value: function ngOnInit() {}
       }, {
         key: "ngOnDestroy",
         value: function ngOnDestroy() {
